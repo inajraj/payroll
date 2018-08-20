@@ -254,6 +254,7 @@ $( document ).ready(function() {
                         rowid = $(this).val();
                         console.log(rowid);
                         var this_row = $(this).closest('tr');
+                        $("#headerId").text('Edit Record..');
                         $("#inputBP").val(this_row.find('td:eq(0)').text());
                         $("#inputTicket").val(this_row.find('td:eq(1)').text());
                         $("#inputRate").val(this_row.find('td:eq(2)').text());

@@ -8,11 +8,14 @@
 <link rel="stylesheet" href="../css/sidemenu.css">
 <link rel="stylesheet" href="../css/bootstrap.min.css">
 <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
+<script src="//code.jquery.com/jquery-1.12.4.js"></script>
+<script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
 <script src="../js/Popper.js"></script>
 <script src="../js/tether.min.js"></script>
 <script src="../js/bootstrap.min.js"></script>
-<script src="../scripts/ticket-revenue-util.js"></script>
+<script src="../scripts/expenditure-util.js"></script>
 
 <script>
 //window.alert = function() {
@@ -20,67 +23,79 @@
 //}
 </script>
 
+<style>
+.table-fixed tbody {
+    height: 250px;
+    overflow-y: auto;
+    width: 100%;
+}
+.table-fixed thead,
+.table-fixed tbody,
+.table-fixed tr,
+.table-fixed td,
+.table-fixed th {
+    display: block;
+}
+.table-fixed tr:after {
+    content: "";
+    display: block;
+    visibility: hidden;
+    clear: both;
+}
+.table-fixed tbody td,
+.table-fixed thead > tr > th {
+    float: left;
+}
+.table > thead > tr > th,
+.table > thead > tr > td {
+    font-size: .9em;
+    font-weight: 400;
+    border-bottom: 0;
+    letter-spacing: 1px;
+    vertical-align: top;
+    padding: 6px;
+    background: #51596a;
+    text-transform: uppercase;
+    color: #ffffff;
+}
+.table > tbody > tr > td {
+    font-size: 1.0em;
+    font-weight: 400;
+    border-bottom: 0;
+    letter-spacing: 1px;
+    vertical-align: top;
+    padding: 5px;
+   
+}
+</style>
 </head>
 <body>
-<div class="container">
-<?php
-$errEmail = $errPass= $errName="";
-if(isset($_POST["submit"])) {
-
-$email = $_POST['email'];
-$name = $_POST['user'];
-$password = $_POST['password'];
-$valid=true;
-// Check if name has been entered
-if(empty($_POST['user'])){
-$errName= 'Please enter your user name';
-$valid=false;
-}
-// Check if email has been entered and is valid
-if(empty($_POST['email'])){
-$errEmail = 'Please enter a valid email address';
-$valid=false;
-}
-// check if a valid password has been entered
-if(empty($_POST['password']) || (preg_match("/^.*(?=.{8,})(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).*$/", $_POST["password"]) === 0)) {
-$errPass = '<p class="errText">Password must be at least 8 characters and must contain at least one lower case letter, one upper case letter and one digit</p>';
-$valid=false;
-}
-if($valid){
-echo "The form has been submitted";
-}
-
-}
-?>
-<!-- end php code -->
-
 <br>
-<br>
-
 <div class="container">
   <div class="row">
     <?php include '../RightPanel.php';?>
     <div class="col-sm-9  ">
         <div class="page-header">
-            <h2>Ticket Revenue Form</h2> 
-          <p>Plese enter the ticket revenue details..</p> 
+            <h2>Expenditure Form</h2> 
+          <p>Plese enter the expenditure details..</p> 
         </div>
         
-        <form role="form" method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>">
+        <form role="form" method="post" >
         <br>
-        <br>
+        
         <div class="row">
-            <label for="inputDate" class="col-sm-2 col-form-label">Date</label>
-            <div class="col-sm-4">
-                <input type="date" class="form-control" id="inputDate" name="date" placeholder="Date" data-ticketid="0">
+            <label for="inputDate" class="col-sm-1 col-form-label">Date</label>
+            <div class="col-sm-3">
+                <input type="date" class="form-control" id="inputDate" name="date" placeholder="Date" data-tripid="0">
             </div>
             <label for="inputBN" class="col-sm-2 col-form-label">Bus Number</label>
-            <div class="col-sm-4 dropdown">
+            <div class="col-sm-3 dropdown">
                 
              <select id="selectBN"  class="form-control">
                 <option disabled selected value=""> -- select -- </option>
                 <?php include '../PopulateBusNumbers.php';?>
             </select> 
+            
 
             
                
@@ -113,22 +128,14 @@ echo "The form has been submitted";
             </select> 
         </div>
     </div>
-   
-    <br>
-    <br>
-
-
-
-    <table class="table table-bordered table-hover table-sm " id="detailTable" >
+   <br>
+    <table class="table table-bordered table-hover table-fixed " id="driverTable" >
         <thead>
         <tr>
-            <th scope="col">Sel</th>
-            <th scope="col">Boarding Point</th>
-            <th scope="col">Ticket</th>
-            <th scope="col">Rate</th>
-            <th scope="col">Total</th>
-            <th scope="col">Commission</th>
-            <th scope="col">Grand Total</th>
+            <th scope="col" style="width: 10%">Sel</th>
+            <th scope="col" style="width: 40%">Name</th>
+            <th scope="col" style="width: 20%">Expense</th>
+         
         </tr>
         </thead>
         <tbody>
@@ -138,15 +145,17 @@ echo "The form has been submitted";
 
     <div class="form-group row">
         <div class="offset-sm-2 col-sm-2">
-            <input type="button" value="Add" name="add" id="btnAdd" class="btn btn-primary" data-toggle="modal" data-target="#myModal"/>
+            <input type="button" value="Add" name="add" id="btnAdd1" class="btn btn-primary"  data-toggle="modal" data-target="#myModal"/>
         </div>
         <div class="offset-sm-2 col-sm-2">
-            <input type="button" value="Edit" id="btnEdit" class="btn btn-primary" data-toggle="modal" data-target="#myModal"/>
+            <input type="button" value="Edit" id="btnEdit1" class="btn btn-primary"  data-toggle="modal" data-target="#myModal" />
         </div>
         <div class="offset-sm-2 col-sm-2">
             <input type="button" value="Delete" name="delete" class="btn btn-primary" id="btnDelete"/>
         </div>
     </div>
+
+    
     </form>
     </div>
     </div>
@@ -154,7 +163,7 @@ echo "The form has been submitted";
 
   <!-- Trigger the modal with a button -->
 <!-- <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button> -->
-<?php include 'ticketEdit.php';?>
+<?php include 'ExpenditureEdit.php';?>
 </div>
 </div>
 
