@@ -254,9 +254,10 @@ $( document ).ready(function() {
         
         maxDate = new Date();
         minDate.setTime(maxDate.getTime() - 30*24*60*60*1000);
-
-        if (!validateDate("#dpJoiningDate",minDate,maxDate, "JoiningDate"))
-            return false; //joining date
+        console.log(act)
+        if (act == "add")
+            if (!validateDate("#dpJoiningDate",minDate,maxDate, "JoiningDate"))
+                return false; //joining date
        
         if ($("#dpResignationDate").val() != "") {
             if (!validateDate("#dpResignationDate", minDate, maxDate, "Resignation Date"))

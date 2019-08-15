@@ -4,7 +4,7 @@ function checkBlank($fieldName, $results) {
     //this will check if the value is not blank to be added as a field
     //in the insert query insert into fieldname
     if ($results[$fieldName] != '' ) {
-        $tmp = "," . $fieldName ;
+        $tmp =  $fieldName . "," ;
         return $tmp;
     }
     else
@@ -43,7 +43,9 @@ $row = $result->fetch_assoc();
 
 $empid = $row['EmpID'];
 
-    //insert
+$s = "insert into EmployeeMaster(EmpID,FirstName," . checkBlank("MiddleName", $results) . "LastName," . checkBlank("Initials", $results) . "FullName," . checkBlank("FatherName", $results) . "" . checkBlank("SpouseName", $results) . "DOB,Department,CenterName,JoiningDate,BusinessTitle,MobileNo," . checkBlank("AlternateContactNo", $results) . "" . checkBlank("UserID", $results) . "Active) Values ('" . $results['EmpID'] . "','" . $results['FirstName'] . "'" . removeBlank($results['MiddleName']) . " ,'" . $results['LastName'] . "'" . removeBlank($results['Initials']) . " ,'" . $results['FullName'] . "'" . removeBlank($results['FatherName']) . " " . removeBlank($results['SpouseName']) . " ,'" . $results['DOB'] . "','" . $results['Department'] . "','" . $results['CenterName'] . "','" . $results['JoiningDate'] . "','" . $results['BusinessTitle'] . "','" . $results['MobileNo'] . "'" . removeBlank($results['AlternateContactNo']) . " " . removeBlank($results['UserID']) . " ,'" . $results['Active'] . ")";
+
+//insert
 $sql = "Insert into EmployeeMaster (EmpID,FirstName " . checkBlank("MiddleName", $results)
 . ",LastName" . checkBlank("Initials",$results) . ",FatherName,SpouseName,DOB,CompanyID,Department,BusinessTitle,
 JoiningDate,JobBand,MobileNo,AlternateContactNo,PAN,AADHAAR,PF_UAN,PassportNo,
@@ -59,13 +61,12 @@ $results['PF_UAN'] . "','" . $results['PassportNo'] . "','" .
 $results['Active'] . "'" . removeBlank($results['ResignationDate'])  .
 removeBlank( $results['LeavingDate']) . ")";
 
-//$result = $conn->query($sql);
-    
-echo $sql;
+
+echo $s;
 
 //echo $result;
 
 $conn->close();
 
 
-?>
+?>' 

@@ -1,7 +1,7 @@
 <?php 
 function checkBlank($fieldName, $dateVal) {
     if ($dateVal != '' ) {
-        $tmp = "," . $fieldName . " = '" . $dateVal . "'";
+        $tmp =  $fieldName . " = '" . $dateVal . "',";
         return $tmp;
     }
     else
@@ -24,7 +24,8 @@ $sql = "select max(EmpID)+1 as EmpID from EmployeeMaster";
 //$row = $result->fetch_assoc();
 
 //$empid = $row['EmpID'];
- 
+
+$s = "update EmployeeMaster SET EmpID = '" . $results['EmpID'] . "', FirstName = '" . $results['FirstName'] . "', " . checkBlank(MiddleName, $results['MiddleName']) ." LastName = '" . $results['LastName'] . "', " . checkBlank(Initials, $results['Initials']) ." FullName = '" . $results['FullName'] . "', " . checkBlank(FatherName, $results['FatherName']) ." " . checkBlank(SpouseName, $results['SpouseName']) ." DOB = '" . $results['DOB'] . "', Department = '" . $results['Department'] . "', CenterName = '" . $results['CenterName'] . "', JoiningDate = '" . $results['JoiningDate'] . "', BusinessTitle = '" . $results['BusinessTitle'] . "', MobileNo = '" . $results['MobileNo'] . "', " . checkBlank(AlternateContactNo, $results['AlternateContactNo']) ." " . checkBlank(UserID, $results['UserID']) ." Active = '" . $results['Active'] . "'" ." where EmpID = '" . $results['EmpID'] . "'";
 $sql = " Update EmployeeMaster SET FirstName = '" 
 . $results['FirstName'] . "',MiddleName = '" . $results['MiddleName'] . "',LastName = '" 
 . $results['LastName'] . "',Initials = '" . $results['Initials'] . "',FatherName = '" . $results['FatherName'] 
@@ -40,14 +41,13 @@ $sql = " Update EmployeeMaster SET FirstName = '"
 .  checkBlank("LeavingDate", $results['LeavingDate'])
 . " Where EmpID = '" . $results['EmpID'] . "'";
 
-$result = $conn->query($sql);
+//$result = $conn->query($sql);
     
-echo $sql;
+echo $s;
 
-$result = $conn->query($sql);
+//$result = $conn->query($sql);
 
 $conn->close();
-
 
 
 
